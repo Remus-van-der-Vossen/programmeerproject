@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://bpu2p54phku5c"]
+
+[ext_resource type="ArrayMesh" uid="uid://cm4orlyyj3jhx" path="res://room_parts/floor_slice.obj" id="1_2koec"]
+[ext_resource type="ArrayMesh" uid="uid://8t5mlmmi2nd0" path="res://room_parts/door_slice.obj" id="2_l8g8n"]
+[ext_resource type="ArrayMesh" uid="uid://pskhcv2ag1m8" path="res://room_parts/window_slice.obj" id="3_ah74s"]
+[ext_resource type="ArrayMesh" uid="uid://cym4dba1whmbh" path="res://room_parts/wall_slice.obj" id="4_bh8tt"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x3kbc"]
+albedo_color = Color(0.5843278, 0.43453455, 0.24513471, 1)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_2koec"]
+data = PackedVector3Array(-0.049999997, 2.6, -0.049999997, 0.049999997, 2.6, -0.049999997, -0.049999997, 2.6, 0.049999997, -0.049999997, 2.6, 0.049999997, 0.049999997, 2.6, -0.049999997, 0.049999997, 2.6, 0.049999997, 0.049999997, 2.6, 0.049999997, 0.049999997, 0, 0.049999997, -0.049999997, 2.6, 0.049999997, -0.049999997, 2.6, 0.049999997, 0.049999997, 0, 0.049999997, -0.049999997, 0, 0.049999997, -0.049999997, 2.6, 0.049999997, -0.049999997, 0, 0.049999997, -0.049999997, 2.6, -0.049999997, -0.049999997, 2.6, -0.049999997, -0.049999997, 0, 0.049999997, -0.049999997, 0, -0.049999997, 0.049999997, 0, -0.049999997, -0.049999997, 0, -0.049999997, 0.049999997, 0, 0.049999997, 0.049999997, 0, 0.049999997, -0.049999997, 0, -0.049999997, -0.049999997, 0, 0.049999997, 0.049999997, 2.6, -0.049999997, 0.049999997, 0, -0.049999997, 0.049999997, 2.6, 0.049999997, 0.049999997, 2.6, 0.049999997, 0.049999997, 0, -0.049999997, 0.049999997, 0, 0.049999997, -0.049999997, 2.6, -0.049999997, -0.049999997, 0, -0.049999997, 0.049999997, 2.6, -0.049999997, 0.049999997, 2.6, -0.049999997, -0.049999997, 0, -0.049999997, 0.049999997, 0, -0.049999997)
+
+[node name="RoomTiles" type="Node3D" unique_id=933485971]
+
+[node name="FloorSlice" type="MeshInstance3D" parent="." unique_id=1199655252]
+mesh = ExtResource("1_2koec")
+surface_material_override/0 = SubResource("StandardMaterial3D_x3kbc")
+
+[node name="DoorSlice" type="MeshInstance3D" parent="." unique_id=1414287746]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0, 0)
+mesh = ExtResource("2_l8g8n")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="DoorSlice" unique_id=160378193]
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DoorSlice/StaticBody3D" unique_id=722142145]
+shape = SubResource("ConcavePolygonShape3D_2koec")
+
+[node name="WindowSlice" type="MeshInstance3D" parent="." unique_id=753208207]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 0, 0)
+mesh = ExtResource("3_ah74s")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="WindowSlice" unique_id=313491063]
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WindowSlice/StaticBody3D" unique_id=663573921]
+shape = SubResource("ConcavePolygonShape3D_2koec")
+
+[node name="WallSlice" type="MeshInstance3D" parent="." unique_id=438699238]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0, 0)
+mesh = ExtResource("4_bh8tt")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="WallSlice" unique_id=1270346894]
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WallSlice/StaticBody3D" unique_id=1596208994]
+shape = SubResource("ConcavePolygonShape3D_2koec")

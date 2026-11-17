@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://cj42t2mvg5dmr"]
+
+[ext_resource type="Script" uid="uid://dv6nrdl3s0oga" path="res://cursor.gd" id="1_fsq4c"]
+[ext_resource type="BoxMesh" uid="uid://dbxr30oo3xrok" path="res://default_cursor.tres" id="2_e4vdg"]
+[ext_resource type="Material" uid="uid://gvq6n16bndk3" path="res://selection_red.tres" id="3_e4vdg"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7v0h8"]
+size = Vector3(0.1, 2.8, 0.1)
+
+[node name="Cursor" type="CharacterBody3D" unique_id=1296002109]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_fsq4c")
+
+[node name="RayCast3D" type="RayCast3D" parent="." unique_id=88287683]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+hit_from_inside = true
+
+[node name="Pivot" type="Node3D" parent="." unique_id=752841654]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Pivot" unique_id=1575207443]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+mesh = ExtResource("2_e4vdg")
+surface_material_override/0 = ExtResource("3_e4vdg")
+
+[node name="Area3D" type="Area3D" parent="Pivot" unique_id=1131703368]
+collision_layer = 0
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Pivot/Area3D" unique_id=1437677415]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+shape = SubResource("BoxShape3D_7v0h8")
