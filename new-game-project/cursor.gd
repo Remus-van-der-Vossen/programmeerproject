@@ -1,8 +1,9 @@
 extends CharacterBody3D
 
-@export var speed = 2
 @export var default_size = Vector3(0.1, 2.6, 0.1)
 @export var default_position = Vector3(0.05, 0, 0.05)
+@export var movement_speed = 0.07
+@export var rotation_speed = 0.5
 
 @onready var selection_green = preload("res://selection_green.tres")
 @onready var selection_red = preload("res://selection_red.tres")
@@ -89,12 +90,23 @@ func move(direction):
 	if moving == false and rotating == false:
 			moving = true
 			var tween = create_tween()
-			tween.tween_property(self, "position", position + direction * grid_size, 0.1)
+			tween.tween_method( 
+				set_cursor_position,
+				position, 
+				position + direction * grid_size, 
+				movement_speed * sqrt(direction.dot(direction))
+			)
 			tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
 			tween.tween_callback(stop_moving)
 
 func stop_moving():
 	moving = false
+	
+func set_cursor_position(pos):
+	position = pos
+	
+	if selected_object:
+		selected_object.position = pos
 
 func set_color():
 	if can_place:
@@ -117,10 +129,20 @@ func rotate_selected(rotation_direction):
 		rotating = true
 		
 		var tween = create_tween()
-		tween.tween_property($Pivot, "rotation_degrees", Vector3(0, $Pivot.rotation_degrees.y + rotation_direction * 90, 0), 1)
+		tween.tween_method(
+			set_cursor_rotation_degrees, 
+			$Pivot.rotation_degrees.y,
+			$Pivot.rotation_degrees.y + rotation_direction * 90, 
+			rotation_speed
+		)
 		#tween.tween_property(selected_object, "rotation_degrees", Vector3(0, rotation_degrees.y + rotation_direction * 90, 0), 0.1)
 		#tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
 		tween.tween_callback(stop_rotating)
+
+func set_cursor_rotation_degrees(rot_degrees):
+	$Pivot.rotation_degrees.y = rot_degrees
+	
+	selected_object.rotation_degrees.y = rot_degrees
 
 func stop_rotating():
 	rotating = false
@@ -150,7 +172,8 @@ func select(object: StaticBody3D):
 		if selected_object:
 			selected_object.position.y = 0
 		selected_object = null
-		position = default_position
+		position.y = 0
+		position = (position - default_size * 0.5).snapped(Vector3.ONE * grid_size) + default_size * 0.5
 		$Pivot.rotation = Vector3.ZERO
 		$Pivot/MeshInstance3D.mesh = default_mesh
 		$Pivot/MeshInstance3D.position.y = 0
