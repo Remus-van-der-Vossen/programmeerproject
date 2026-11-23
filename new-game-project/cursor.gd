@@ -34,18 +34,10 @@ func _physics_process(_delta):
 		if len(interacting_objects) > 1:
 			can_place = false
 		
-		if not moving:
-			var rotation_direction = get_rotation_direction()
-		
-			if rotation_direction != 0:
-				rotate_selected(rotation_direction)
-		
-		selected_object.position = position
-		selected_object.rotation = $Pivot.rotation
+		handle_rotation()
 
 	if not moving:
 		handle_selection()
-		update_collision_size()
 		
 	set_color()
 
@@ -114,6 +106,13 @@ func set_color():
 	else:
 		$Pivot/MeshInstance3D.material_override = selection_red
 
+func handle_rotation():
+	if not moving:
+		var rotation_direction = get_rotation_direction()
+		
+		if rotation_direction != 0:
+			rotate_selected(rotation_direction)
+
 func get_rotation_direction():
 	var rotation_direction = 0
 	
@@ -149,28 +148,29 @@ func stop_rotating():
 
 func handle_selection():
 	if Input.is_action_just_pressed("select"):
-			if not selected_object:
-				if interacting_objects:
-					select(interacting_objects[0])
-			else:
-				if can_place:
-					select(null)
+		if not selected_object:
+			if interacting_objects:
+				select(interacting_objects[0])
+		else:
+			if can_place:
+				select(null)
+		update_collision_size()
 
 func select(object: StaticBody3D):
-	if object: 
+	if object:
 		selected_object = object
+		object.position.y = 0.5
 		position = object.position
 		$Pivot.rotation = object.rotation
-		position.y = 0.5
 		var source_mesh := object.get_node("MeshInstance3D") as MeshInstance3D
 		$Pivot/MeshInstance3D.mesh = source_mesh.mesh
 		$Pivot/MeshInstance3D.position.y = 0.1
 		selection_size.x = object.size.x
 		selection_size.z = object.size.z
-			
 	else:
 		if selected_object:
 			selected_object.position.y = 0
+			print(selected_object.calculate_score())
 		selected_object = null
 		position.y = 0
 		position = (position - default_size * 0.5).snapped(Vector3.ONE * grid_size) + default_size * 0.5

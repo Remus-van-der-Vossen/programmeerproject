@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://vrvvcvbbmn5g"]
+
+[ext_resource type="PackedScene" uid="uid://dlq7q7racwjho" path="res://furniture_object.tscn" id="1_c32mu"]
+[ext_resource type="Script" uid="uid://lksg6nt3gjan" path="res://bed.gd" id="2_2rykw"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7v0h8"]
+size = Vector3(0.05, 1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_x3kbc"]
+size = Vector3(1.4, 1, 0.5)
+
+[node name="Bed" unique_id=601874548 instance=ExtResource("1_c32mu")]
+script = ExtResource("2_2rykw")
+free_space_width = 0.5
+
+[node name="HeadboardWallDetector" type="Area3D" parent="." index="2" unique_id=1909285147]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1, 0.5, 0)
+collision_layer = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HeadboardWallDetector" index="0" unique_id=1538199599]
+shape = SubResource("BoxShape3D_7v0h8")
+
+[node name="HeadboardWindowDetector" type="Area3D" parent="." index="3" unique_id=1196603178]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1, 0.5, 0)
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HeadboardWindowDetector" index="0" unique_id=1677243601]
+shape = SubResource("BoxShape3D_7v0h8")
+
+[node name="FreeSpaceRight" type="Area3D" parent="." index="4" unique_id=22082448]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0.5, 1)
+collision_layer = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FreeSpaceRight" index="0" unique_id=1156319521]
+shape = SubResource("BoxShape3D_x3kbc")
+
+[node name="FreeSpaceLeft" type="Area3D" parent="." index="5" unique_id=2059539608]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0.5, -1)
+collision_layer = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FreeSpaceLeft" index="0" unique_id=742804956]
+shape = SubResource("BoxShape3D_x3kbc")
